@@ -5,13 +5,14 @@ integers and floats and returns their sum as a float
 """
 from typing import List, Union
 
-
-def sum_mixed_list(mxd_lst: List[Union[float, int]]) -> float:
+def sum_mixed_list(mxd_lst: List[Union[int, float]]) -> float:
     """
-     takes a list input_list of floats and integers as argument
-     and returns their sum as a float
+    Takes a list of integers and floats and returns their sum as a float.
+    
+    Args:
+        mxd_lst (List[Union[int, float]]): A list of integers and floats.
+        
+    Returns:
+        float: The sum of the elements in the list.
     """
-    sum: float = 0
-    for num in mxd_lst:
-        sum += num
-    return sum
+    return sum(mxd_lst)
