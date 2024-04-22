@@ -9,7 +9,11 @@ wait_random = __import__('0-basic_async_syntax').wait_random
 
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
+    """
+    akes in 2 int arguments
+    return the list of all the delays (float values)
+    """
     listOfDelays: List[float] = []
     for i in range(n):
         listOfDelays.append(await wait_random(max_delay))
-    return listOfDelays
+    return sorted(listOfDelays)
