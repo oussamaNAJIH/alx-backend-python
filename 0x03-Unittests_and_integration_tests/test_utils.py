@@ -39,18 +39,19 @@ class TestAccessNestedMap(unittest.TestCase):
         class for testing get_json function
         """
         @patch("utils.requests.get")
-        def test_get_json(self, moke_get_json):
+        @patch("utils.requests.get")
+        def test_get_json(self, mock_get_json):
             """
-            fucntion for testing get_json function
+            Function for testing get_json function
             """
             test_cases = [
-                            ("http://example.com", {"payload": True}),
-                            ("http://holberton.io", {"payload": False})
-                        ]
+                ("http://example.com", {"payload": True}),
+                ("http://holberton.io", {"payload": False})
+            ]
             for test_url, test_payload in test_cases:
-                moke_response = Mock()
-                moke_response.json.return_value = test_payload
-                moke_get_json.return_value = moke_response
+                mock_response = Mock()
+                mock_response.json.return_value = test_payload
+                mock_get_json.return_value = mock_response
                 result = get_json(test_url)
-                moke_get_json.assert_called_with(test_url)
+                mock_get_json.assert_called_with(test_url)
                 self.assertEqual(test_payload, result)
