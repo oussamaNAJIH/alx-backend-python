@@ -55,3 +55,7 @@ class TestGetJson(unittest.TestCase):
             result = get_json(test_url)
             mock_get_json.assert_called_with(test_url)
             self.assertEqual(test_payload, result)
+
+
+if __name__ == "__main__":
+    unittest.main()
