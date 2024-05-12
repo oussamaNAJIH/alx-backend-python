@@ -38,7 +38,7 @@ class TestAccessNestedMap(unittest.TestCase):
         """
         class for testing get_json function
         """
-        @patch("requests.get")
+        @patch("utils.requests.get")
         def test_get_json(self, moke_get_json):
             """
             fucntion for testing get_json function
