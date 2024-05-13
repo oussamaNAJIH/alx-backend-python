@@ -26,7 +26,7 @@ class TestGithubOrgClient(unittest.TestCase):
         test_instance.org()
         mock_get_json.called_with_once(test_instance.ORG_URL.format(org=input))
 
-    def test_public_repos_url(self, mock_org):
+    def test_public_repos_url(self):
         """
         function to test _public_repos_url
         """
