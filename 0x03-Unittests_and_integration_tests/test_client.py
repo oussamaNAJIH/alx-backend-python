@@ -10,12 +10,18 @@ from utils import get_json
 
 
 class TestGithubOrgClient(unittest.TestCase):
+    """
+    class for testing GithubOrgClient
+    """
     @parameterized.expand([
         ("google",),
         ("abc",)
     ])
     @patch("utils.get_json")
-    def test_org(self, input, mock_org):
+    def test_org(self, input, m_org):
+        """
+        function for testing GithubOrgClient
+        """
         test_instance = GithubOrgClient(input)
         result = test_instance.org()
-        mock_org.assert_called_once_with(f"https://api.github.com/orgs/{input}")
+        m_org.assert_called_once_with(f"https://api.github.com/orgs/{input}")
