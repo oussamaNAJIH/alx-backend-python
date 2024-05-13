@@ -4,24 +4,25 @@ a module for testing client.GithubOrgClient
 """
 from parameterized import parameterized
 import unittest
-from unittest.mock import mock, patch
+from unittest.mock import Mock, patch
 from client import GithubOrgClient
 from utils import get_json
 
+
+from unittest.mock import patch, Mock
 
 class TestGithubOrgClient(unittest.TestCase):
     """
     class for testing GithubOrgClient
     """
     @parameterized.expand([
-        ("google",),
-        ("abc",)
+        ('google'),
+        ('abc')
     ])
-    @patch("utils.get_json")
-    def test_org(self, input, m_org):
+    @patch('client.get_json')
+    def test_org(self, org_name, mock):
+        """Test TestGithubOrgClient.org return the correct value
         """
-        function for testing GithubOrgClient
-        """
-        test_instance = GithubOrgClient(input)
-        result = test_instance.org()
-        m_org.assert_called_once_with(f"https://api.github.com/orgs/{input}")
+        test_class = GithubOrgClient(org_name)
+        test_class.org()
+        mock.called_with_once(test_class.ORG_URL.format(org=org_name))
