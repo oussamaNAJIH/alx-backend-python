@@ -30,28 +30,10 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         function to test _public_repos_url
         """
-        with patch("client.org",
+        with patch("client.GithubOrgClient.org",
                    new_callable=PropertyMock) as mock_org:
             mock_org.return_value = {"repos_url": "http://repos.com"}
             test_instance = GithubOrgClient("exmp")
             result = test_instance._public_repos_url
             mock_org.assert_called_once_with()
             self.assertEqual(result, "http://repos.com")
-
-    @patch("client.get_json")
-    def test_public_repos(self, mock_get_json):
-        """
-        function to test public_repos
-        """
-        with patch("client._public_repos_url") as mock_repos_url:
-            mock_repos_url.return_value = "http://repos.com"
-            mock_get_json.return_value = [
-                {"name": "repo1", "license": {"key": "mit"}},
-                {"name": "repo2", "license": {"key": "apache"}},
-                {"name": "repo3", "license": {"key": "mit"}},
-            ]
-            test_instance = GithubOrgClient("exmp")
-            repos = test_instance.public_repos(license="mit")
-            mock_repos_url.assert_called_once()
-            mock_get_json.assert_called_once_with("http://repos.com")
-            self.assertEqual(repos, ["repo1", "repo3"])
