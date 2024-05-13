@@ -43,7 +43,15 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         function to test public_repos
         """
-        with patch("client._public_repos_url") as mock:
-            mock.return_value = "http://repos.com"
-            
-
+        with patch("client._public_repos_url") as mock_repos_url:
+            mock_repos_url.return_value = "http://repos.com"
+            mock_get_json.return_value = [
+                {"name": "repo1", "license": {"key": "mit"}},
+                {"name": "repo2", "license": {"key": "apache"}},
+                {"name": "repo3", "license": {"key": "mit"}},
+            ]
+            test_instance = GithubOrgClient("exmp")
+            repos = test_instance.public_repos(license="mit")
+            mock_repos_url.assert_called_once()
+            mock_get_json.assert_called_once_with("http://repos.com")
+            self.assertEqual(repos, ["repo1", "repo3"])
