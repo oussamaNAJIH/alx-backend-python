@@ -26,13 +26,14 @@ class TestGithubOrgClient(unittest.TestCase):
         test_instance.org()
         mock_get_json.called_with_once(test_instance.ORG_URL.format(org=input))
 
-    @patch("client.GithubOrgClient.org", new_callable=PropertyMock)
     def test_public_repos_url(self, mock_org):
         """
         function to test _public_repos_url
         """
-        mock_org.return_value = {"repos_url": "http://repos.com"}
-        test_instance = GithubOrgClient("exmp")
-        result = test_instance._public_repos_url
-        mock_org.assert_called_once_with()
-        self.assertEqual(result, "http://repos.com")
+        with patch("client.GithubOrgClient.org",
+                   new_callable=PropertyMock) as mock_org:
+            mock_org.return_value = {"repos_url": "http://repos.com"}
+            test_instance = GithubOrgClient("exmp")
+            result = test_instance._public_repos_url
+            mock_org.assert_called_once_with()
+            self.assertEqual(result, "http://repos.com")
