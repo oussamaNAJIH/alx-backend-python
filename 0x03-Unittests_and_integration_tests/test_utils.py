@@ -4,7 +4,7 @@ a module for testing access_nested_map function
 """
 from parameterized import parameterized
 import unittest
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 from unittest.mock import patch, Mock
 
 
@@ -54,6 +54,41 @@ class TestGetJson(unittest.TestCase):
         result = get_json(input)
         mock_get_json.assert_called_with(input)
         self.assertEqual(result, expected)
+
+
+class TestMemoize(unittest.TestCase):
+    """
+    class for testing memoire function
+    """
+    class TestClass:
+        """
+        class for testing memoire function
+        """
+        def a_method(self):
+            """
+            method that returns 42
+            """
+            return 42
+
+        @memoize
+        def a_property(self):
+            """
+            property
+            """
+            return self.a_method()
+
+        @patch("__main__.TestMemoize.TestClass.a_method")
+        def test_memoize(self, mock_a_method):
+            """
+            function to test memoize function
+            """
+            test_instance = self.TestClass()
+            mock_a_method.return_value = 42
+            result1 = test_instance.a_property()
+            result2 = test_instance.a_property()
+            mock_a_method.assert_called_once()
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
 
 
 if __name__ == "__main__":
